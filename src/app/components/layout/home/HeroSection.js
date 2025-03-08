@@ -12,7 +12,7 @@ import {
 } from "../../icons/brands";
 import StarryBackground from "../../component/StarryBackground";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 
 export default function HeroSection({ windowWidth }) {
   const [scrollY, setScrollY] = useState(0);
@@ -26,28 +26,32 @@ export default function HeroSection({ windowWidth }) {
   const statsRef = useRef(null);
   const [isStatsVisible, setIsStatsVisible] = useState(false);
 
-  const stats = [
-    {
-      title: "Platform integrations",
-      value: 15,
-      valueText: "",
-    },
-    {
-      title: "Conversion compared to VAs",
-      value: 4,
-      valueText: "x",
-    },
-    {
-      title: "Satisfied agencies",
-      value: 712,
-      valueText: "",
-    },
-    {
-      title: "Subscribers funneled",
-      value: 1.8,
-      valueText: "M+",
-    },
-  ];
+  // Use useMemo to prevent stats from being recreated on every render
+  const stats = useMemo(
+    () => [
+      {
+        title: "Platform integrations",
+        value: 15,
+        valueText: "",
+      },
+      {
+        title: "Conversion compared to VAs",
+        value: 4,
+        valueText: "x",
+      },
+      {
+        title: "Satisfied agencies",
+        value: 712,
+        valueText: "",
+      },
+      {
+        title: "Subscribers funneled",
+        value: 1.8,
+        valueText: "M+",
+      },
+    ],
+    []
+  );
 
   useEffect(() => {
     const handleScroll = () => {
@@ -121,9 +125,7 @@ export default function HeroSection({ windowWidth }) {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [isStatsVisible]);
-
-  // Animate stats when they become visible
+  }, [isStatsVisible, stats]);
 
   // Calculate rotation based on scroll position
   // Max rotation of 6 degrees when scrolled down 300px
@@ -137,14 +139,18 @@ export default function HeroSection({ windowWidth }) {
     return rotation;
   };
 
-  const brands = [
-    <Reddit key="reddit" width={windowWidth <= 640 && 100} />,
-    <Quora key="quora" width={windowWidth <= 640 && 100} />,
-    <Vevo key="vevo" width={windowWidth <= 640 && 100} />,
-    <Zynga key="zynga" width={windowWidth <= 640 && 100} />,
-    <BeReal key="bereal" width={windowWidth <= 640 && 100} />,
-    <Patreon key="patreon" width={windowWidth <= 640 && 100} />,
-  ];
+  // Use useMemo for brands array since it depends on windowWidth
+  const brands = useMemo(
+    () => [
+      <Reddit key="reddit" width={windowWidth <= 640 && 100} />,
+      <Quora key="quora" width={windowWidth <= 640 && 100} />,
+      <Vevo key="vevo" width={windowWidth <= 640 && 100} />,
+      <Zynga key="zynga" width={windowWidth <= 640 && 100} />,
+      <BeReal key="bereal" width={windowWidth <= 640 && 100} />,
+      <Patreon key="patreon" width={windowWidth <= 640 && 100} />,
+    ],
+    [windowWidth]
+  );
 
   return (
     <section className="w-full relative">
@@ -233,7 +239,7 @@ export default function HeroSection({ windowWidth }) {
         fetchPriority="high"
         src="/image/background.png"
         width={500}
-        height={700}
+        height={500}
         alt="bg"
       />
     </section>

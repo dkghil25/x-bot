@@ -1,5 +1,5 @@
-import SampleFeature from "../components/layout/home/SampleFeature";
+// import SampleFeature from "../components/layout/home/SampleFeature";
 
-export default function Home() {
-  return <SampleFeature />;
-}
+// export default function Home() {
+//   return <SampleFeature />;
+// }

@@ -1,4 +1,5 @@
 // components/Footer.jsx
+import { Logo } from "@/app/components/icons/icons";
 import Link from "next/link";
 import { Facebook, Instagram, Twitter } from "../icons/icons";
 const Footer = () => {
@@ -10,7 +11,7 @@ const Footer = () => {
           <div className="space-y-6">
             <div>
               <Link href="/" className="text-3xl font-bold">
-                <span className="text-p-500">X</span>Bot
+                <Logo />
               </Link>
             </div>
             <div>
@@ -147,7 +148,6 @@ const Footer = () => {
                     DA Chatter
                   </Link>
                 </li>
-         
               </ul>
             </div>
           </div>
@@ -157,18 +157,18 @@ const Footer = () => {
           <p className="text-sm text-gray-400">
             © 2025 xBot | ALL RIGHTS RESERVED
           </p>
-          <div>  <Link
-                    href="/privacy-policy"
-                    className="hover:text-p-500 transition-colors mr-8"
-                  >
-                    Privacy Policy
-                  </Link> 
-                  <Link
-                    href="/terms"
-                    className="hover:text-p-500 transition-colors"
-                  >
-                    Terms & Condition
-                  </Link></div>
+          <div>
+            {" "}
+            <Link
+              href="/privacy-policy"
+              className="hover:text-p-500 transition-colors mr-8"
+            >
+              Privacy Policy
+            </Link>
+            <Link href="/terms" className="hover:text-p-500 transition-colors">
+              Terms & Condition
+            </Link>
+          </div>
         </div>
       </div>
     </footer>
