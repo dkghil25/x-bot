@@ -3,29 +3,30 @@ import { google } from "googleapis";
 import nodemailer from "nodemailer";
 
 export async function POST(req) {
-  const { name, email, message, captcha } = await req.json();
+  const { name, email, message } = await req.json();
+  // const { name, email, message, captcha } = await req.json();
 
   // ✅ Check if Captcha is Provided
-  if (!captcha) {
-    return NextResponse.json(
-      { message: "Captcha is required" },
-      { status: 400 }
-    );
-  }
+  // if (!captcha) {
+  //   return NextResponse.json(
+  //     { message: "Captcha is required" },
+  //     { status: 400 }
+  //   );
+  // }
 
   // ✅ Verify reCAPTCHA with Google
-  const captchaSecret = process.env.RECAPTCHA_SECRET_KEY;
-  const captchaVerifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${captchaSecret}&response=${captcha}`;
+  // const captchaSecret = process.env.RECAPTCHA_SECRET_KEY;
+  // const captchaVerifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${captchaSecret}&response=${captcha}`;
 
-  const captchaRes = await fetch(captchaVerifyUrl, { method: "POST" });
-  const captchaJson = await captchaRes.json();
+  // const captchaRes = await fetch(captchaVerifyUrl, { method: "POST" });
+  // const captchaJson = await captchaRes.json();
 
-  if (!captchaJson.success) {
-    return NextResponse.json(
-      { message: "Captcha verification failed" },
-      { status: 400 }
-    );
-  }
+  // if (!captchaJson.success) {
+  //   return NextResponse.json(
+  //     { message: "Captcha verification failed" },
+  //     { status: 400 }
+  //   );
+  // }
 
   // ✅ Google OAuth for Nodemailer
   const oauth2Client = new google.auth.OAuth2(
