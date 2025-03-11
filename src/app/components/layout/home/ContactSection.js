@@ -51,9 +51,7 @@ export default function ContactSection() {
       });
 
       if (res.ok) {
-        setStatus(() => {
-          statusMessage(messageStatus.success);
-        });
+        statusMessage(messageStatus.success);
         setFormData({ name: "", email: "", message: "" });
       } else {
         setStatus(() => {
@@ -67,6 +65,11 @@ export default function ContactSection() {
     }
   };
 
+  console.log(
+    "this is  next public",
+    process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
+  );
+  console.log("this is not next public", process.env.RECAPTCHA_SITE_KEY);
   return (
     <section className="w-full relative" id="contact">
       <div className="w-full max-w-[1240px]  mx-auto  px-5   py-16 md:py-24 grid grid-cols-1 md:grid-cols-2 gap-16">
@@ -134,8 +137,8 @@ export default function ContactSection() {
             </div>
             <div className="flex flex-col gap-1">
               <ReCAPTCHA
-                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
-                onChange={(token) => setCaptchaToken(token || "")}
+                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+                onChange={(token) => setCaptchaToken(token)}
               />
 
               <button type="submit" className="main-button-md w-fit">
