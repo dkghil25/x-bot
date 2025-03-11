@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-// import ReCAPTCHA from "react-google-recaptcha";
+import ReCAPTCHA from "react-google-recaptcha";
 import Spinner from "@/app/components/component/Spinner";
 
 import { useState } from "react";
@@ -14,7 +14,7 @@ export default function ContactSection() {
     message: "",
   });
   const [status, setStatus] = useState(null);
-  // const [captchaToken, setCaptchaToken] = useState("");
+  const [captchaToken, setCaptchaToken] = useState("");
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -37,18 +37,17 @@ export default function ContactSection() {
     e.preventDefault();
     setStatus(messageStatus.loading);
 
-    // if (!captchaToken) {
-    //   alert("Please complete the reCAPTCHA.");
-    //   setStatus("Captcha verification required.");
-    //   return;
-    // }
+    if (!captchaToken) {
+      alert("Please complete the reCAPTCHA.");
+      setStatus("Captcha verification required.");
+      return;
+    }
 
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...formData }),
-        // body: JSON.stringify({ ...formData, captcha: captchaToken }),
+        body: JSON.stringify({ ...formData, captcha: captchaToken }),
       });
 
       if (res.ok) {
@@ -134,10 +133,10 @@ export default function ContactSection() {
               />
             </div>
             <div className="flex flex-col gap-1">
-              {/* <ReCAPTCHA
+              <ReCAPTCHA
                 sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
                 onChange={(token) => setCaptchaToken(token || "")}
-              /> */}
+              />
 
               <button type="submit" className="main-button-md w-fit">
                 Submit
