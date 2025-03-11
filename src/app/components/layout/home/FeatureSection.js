@@ -2,8 +2,9 @@
 import React, { useEffect, useRef, useState, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import SectionTag from "@/app/components/component/sectionTag";
+import { SectionTag } from "@/app/components/component/sectionTag";
 import { Diamond, Check, Triangle } from "@/app/components/icons/icons";
+import { useDarkMode } from "@/app/components/component/useDarkMode";
 import {
   SnapchatBot,
   InstagramBot,
@@ -16,6 +17,7 @@ import {
 } from "@/app/components/icons/featureIcon";
 
 export default function HeroSection({ windowWidth }) {
+  const { darkMode } = useDarkMode();
   const features = useMemo(
     () => [
       {
@@ -96,7 +98,6 @@ export default function HeroSection({ windowWidth }) {
       lastScrollY = currentScrollY;
     };
 
-    // Card opacity calculation based on scroll position
     const handleScrollOpacity = () => {
       if (!cardsContainerRef.current) return;
 
@@ -135,30 +136,34 @@ export default function HeroSection({ windowWidth }) {
       setCardOpacities(newOpacities);
     };
 
-    // Image slideshow effect
+    // Image slideshow
     const interval = setInterval(() => {
       setCurrentImageIndex((prevIndex) =>
         prevIndex === featureImages.length - 1 ? 0 : prevIndex + 1
       );
-    }, 3000);
+    }, 2000);
 
     // Combined scroll event listener
     const handleCombinedScroll = () => {
       handleScrollDirection();
       handleScrollOpacity();
     };
-
+    console.log("dark mode from feature:", darkMode);
     window.addEventListener("scroll", handleCombinedScroll);
 
-    // Initial calculations
     handleScrollOpacity();
 
-    // Cleanup
     return () => {
       window.removeEventListener("scroll", handleCombinedScroll);
       clearInterval(interval);
     };
-  }, [featureImages.length, features.length, features, featureImages]);
+  }, [
+    featureImages.length,
+    features.length,
+    features,
+    featureImages,
+    darkMode,
+  ]);
 
   return (
     <section className="w-full" id="product">
@@ -226,13 +231,16 @@ export default function HeroSection({ windowWidth }) {
                 }}
               >
                 <div className="hidden sm:flex items-center w-fit relative z-1">
-                  <Diamond />
+                  <Diamond fill={`${!darkMode && "white"}`} />
                 </div>
                 <div className="w-full flex gap-[-24px] items-center relative overflow-hidden md:overflow-visible">
                   <div className="hidden md:block absolute left-[-22px] z-4">
-                    <Triangle />
+                    <Triangle
+                      fill={`${!darkMode ? "#fafafa" : "#181818"}`}
+                      border={`${!darkMode ? "#DCDCDC" : "#656565"}`}
+                    />
                   </div>
-                  <div className="flex flex-col gap-5 border border-neutral-600 bg-alt-bg rounded-[32px] py-8 px-8 w-full relative">
+                  <div className="flex flex-col gap-5 border border-neutral-200 dark:border-neutral-600 bg-alt-bg-light dark:bg-alt-bg rounded-[32px] py-8 px-8 w-full relative">
                     <h3>{feature.title}</h3>
                     <ul>
                       {feature.feature.map((feat, idx) => (
@@ -244,7 +252,7 @@ export default function HeroSection({ windowWidth }) {
                         </li>
                       ))}
                     </ul>
-                    <Link href="#">
+                    <Link href="/coming-soon">
                       <button className="main-button-md w-fit relative z-1">
                         Learn More
                       </button>

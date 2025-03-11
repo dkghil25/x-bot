@@ -2,6 +2,7 @@
 
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
 @theme {
   --font-sans: Urbanist;
   --font-mono: var(--font-geist-mono);
@@ -35,6 +36,7 @@
   /* common color */
   --color-bg: #0e0e0e;
   --color-alt-bg: #181818;
+  --color-alt-bg-light: #fafafa;
   --color-heading: var(--color-n-50);
   --color-text: #e7e7e7;
 
@@ -51,18 +53,29 @@
 }
 
 h1 {
-  @apply text-heading md:text-7xl text-[40px] leading-[120%] font-bold;
+  @apply dark:text-heading text-neutral-900 md:text-7xl text-[40px] leading-[120%] font-bold;
 }
 h2 {
-  @apply text-heading md:text-5xl text-4xl leading-[120%] font-bold;
+  @apply dark:text-heading text-neutral-900 md:text-5xl text-4xl leading-[120%] font-bold;
 }
 h3 {
-  @apply text-heading md:text-2xl text-xl  leading-[120%] font-bold;
+  @apply dark:text-heading text-neutral-900 md:text-2xl text-xl  leading-[120%] font-bold;
 }
 p {
-  @apply text-text text-base leading-[150%];
+  @apply text-neutral-700 dark:text-text  text-base leading-[150%];
 }
-
+li {
+  @apply text-neutral-700 dark:text-text  text-base leading-[150%];
+}
+label {
+  @apply text-neutral-700 dark:text-text  text-base leading-[150%];
+}
+a {
+  @apply text-neutral-900 dark:text-text  text-base leading-[150%] hover:text-p-500 transition-colors duration-200;
+}
+input {
+  @apply text-neutral-900 dark:text-text   focus:border-p-500 focus:bg-n-200 dark:focus:bg-n-950;
+}
 @layer components {
   .btn-primary-md {
     @apply relative leading-[100%] bg-p-500 hover:bg-p-700 text-white font-bold py-3 px-8 rounded-full  flex justify-center gap-3 items-center  cursor-pointer z-4;
@@ -71,10 +84,10 @@ p {
     @apply relative leading-[100%] bg-p-500 hover:bg-p-700 text-white font-bold py-4 px-10 rounded-full  flex justify-center gap-3 items-center cursor-pointer z-4;
   }
   .main-button-lg {
-    @apply relative w-fit leading-[100%] bg-p-500 hover:bg-p-700 text-white font-bold py-4 px-10 rounded-full  flex justify-center gap-3 items-center cursor-pointer z-4;
+    @apply relative w-fit leading-[100%] bg-p-500 hover:bg-p-700 !text-white font-bold py-4 px-10 rounded-full  flex justify-center gap-3 items-center cursor-pointer z-4;
   }
   .main-button-md {
-    @apply relative w-fit leading-[100%] bg-p-500 hover:bg-p-700 text-white font-bold py-3 px-8 rounded-full  flex justify-center gap-3 items-center  cursor-pointer z-4;
+    @apply relative w-fit leading-[100%] bg-p-500 hover:bg-p-700 !text-white font-bold py-3 px-8 rounded-full  flex justify-center gap-3 items-center  cursor-pointer z-4;
   }
 }
 
@@ -97,7 +110,7 @@ p {
 
 body {
   color: var(--foreground);
-  background: var(--color-bg);
+  /* background: var(--color-bg); */
   font-family: var(--font-sans);
 }
 .bg-custom-gradient {

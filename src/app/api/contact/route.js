@@ -1,9 +1,33 @@
+import { NextRequest, NextResponse } from "next/server";
 import { google } from "googleapis";
 import nodemailer from "nodemailer";
 
 export async function POST(req) {
-  const { name, email, message } = await req.json();
+  const { name, email, message, captcha } = await req.json();
 
+  // ✅ Check if Captcha is Provided
+  if (!captcha) {
+    return NextResponse.json(
+      { message: "Captcha is required" },
+      { status: 400 }
+    );
+  }
+
+  // ✅ Verify reCAPTCHA with Google
+  const captchaSecret = process.env.RECAPTCHA_SECRET_KEY;
+  const captchaVerifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${captchaSecret}&response=${captcha}`;
+
+  const captchaRes = await fetch(captchaVerifyUrl, { method: "POST" });
+  const captchaJson = await captchaRes.json();
+
+  if (!captchaJson.success) {
+    return NextResponse.json(
+      { message: "Captcha verification failed" },
+      { status: 400 }
+    );
+  }
+
+  // ✅ Google OAuth for Nodemailer
   const oauth2Client = new google.auth.OAuth2(
     process.env.CLIENT_ID,
     process.env.CLIENT_SECRET,
@@ -30,18 +54,23 @@ export async function POST(req) {
     });
 
     await transporter.sendMail({
-      from: `"${name}" <${email}>`,
+      from: `"${name}" <${process.env.EMAIL}>`,
       to: process.env.RECEIVER_EMAIL,
+      replyTo: email,
       subject: `Contact Form Submission from ${name}`,
       text: message,
       html: `<p>${message}</p>`,
     });
 
-    return new Response(JSON.stringify({ success: true }), { status: 200 });
+    return NextResponse.json(
+      { success: true, message: "Email sent successfully!" },
+      { status: 200 }
+    );
   } catch (error) {
     console.error(error);
-    return new Response(JSON.stringify({ error: "Failed to send email." }), {
-      status: 500,
-    });
+    return NextResponse.json(
+      { error: "Failed to send email." },
+      { status: 500 }
+    );
   }
 }
