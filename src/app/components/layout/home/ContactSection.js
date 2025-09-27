@@ -18,7 +18,10 @@ export default function ContactSection() {
               <Mail />
             </span>{" "}
             Email us:{" "}
-            <span className="font-bold dark:text-heading"> xBot@gmail.com</span>
+            <span className="font-bold dark:text-heading">
+              {" "}
+              talktrack@gmail.com
+            </span>
           </p>
           <p className="mb-2">Follow Us</p>
           <div className="flex gap-2">

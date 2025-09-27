@@ -13,7 +13,7 @@ export default function CTASection() {
           </h2>
           <p className="text-center w-full md:w-[70%]">
             Automate conversations, engage followers, and boost conversions
-            effortlessly with xBot. Take your social media game to the next
+            effortlessly with TalkTrack. Take your social media game to the next
             level!
           </p>
           <Link href="#contact">

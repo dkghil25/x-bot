@@ -135,7 +135,7 @@ const Footer = () => {
         </div>
         {/* Copyright */}
         <div className="mt-12 pt-8 border-t border-n-300 dark:border-n-950 flex justify-between">
-          <p className="text-sm  ">© 2025 xBot | ALL RIGHTS RESERVED</p>
+          <p className="text-sm  ">© 2025 talktrack | ALL RIGHTS RESERVED</p>
           <div>
             {" "}
             <Link href="/coming-soon" className=" mr-8">

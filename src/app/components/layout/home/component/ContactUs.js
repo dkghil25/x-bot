@@ -105,10 +105,10 @@ export default function ContactUs() {
       </div>
       <div className="flex flex-col gap-1">
         {/* reCAPTCHA v2 Checkbox */}
-        <ReCAPTCHA
+        {/* <ReCAPTCHA
           sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
           onChange={handleCaptchaChange}
-        />
+        /> */}
         <div className="flex flex-row gap-1.5">
           <button
             type="submit"
